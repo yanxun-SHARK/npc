@@ -1,25 +1,32 @@
 
 .PHONY: all clean sim run
 
-MODULE = $(firstword $(notdir $(VSRC:.v=)))
-TARGET = V$(MODULE)
 CSRC_DIR = csrc
 VSRC_DIR = vsrc
 CSRC  := $(wildcard $(CSRC_DIR)/*.cpp)
-VSRC := $(wildcard $(VSRC_DIR)/*.v)
+VSRC :=  $(VSRC_DIR)/top.v $(wildcard $(VSRC_DIR)/*.v)
+
+MODULE = $(firstword $(notdir $(VSRC:.v=)))
+TARGET = V$(MODULE)
 TRASH = obj_dir/ netlist/ icarus/
 
 test:
 	cat $(TARGET)
-all:sim run
+
+all: sim run
 	
-sim:$(VSRC) $(CSRC) 
+sim: $(VSRC) $(CSRC) 
 	$(call git_commit, "sim RTL") # DO NOT REMOVE THIS LINE!!!
-	verilator --cc --exe --build -j 8 -Wall --trace  $(VSRC) $(CSRC) 
-run:
-	obj_dir/$(TARGET)
+	verilator --cc --exe --build -j 8 -Wall --trace-vcd -Wno-fatal $(VSRC) $(CSRC) 
+
+run: sim
+	obj_dir/$(TARGET) $(IMG)
+	
+wave:
 	gtkwave wave.vcd
 
 clean:
 	rm -rf $(TRASH)
+	rm -rf *.vcd
+	rm -rf *.view
 include ../Makefile
