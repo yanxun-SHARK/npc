@@ -1,6 +1,6 @@
 `define  ADDR_W 5
 `define  DATA_W 32
-module top#(parameter ADDR_WIDTH =`ADDR_W, parameter DATA_WIDTH =`DATA_W)(
+module top#(parameter DATA_WIDTH =`DATA_W)(
     input  clk,
     input  rst,
     output ebreak/*verilator public*/,
@@ -38,11 +38,11 @@ end
   wire [DATA_WIDTH-1:0] a0_val;
   wire [DATA_WIDTH-1:0] jal_target;
 //  wire [DATA_WIDTH-1:0] halt_code/*verilator public*/;
- 
+
   assign pc = pc_;
   assign top_inst = inst;
 
-   IFU# (.ADDR_WIDTH(`ADDR_W), .DATA_WIDTH (`DATA_W))
+   IFU# ( .DATA_WIDTH (`DATA_W))
    my_IFU(
      .clk (clk),
      .rst (rst),

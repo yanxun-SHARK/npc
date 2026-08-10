@@ -160,9 +160,9 @@ bool Vtop___024root___eval_phase__nba(Vtop___024root* vlSelf) {
                 vlSelfRef.__Vm_traceActivity[2U] = 1U;
                 {
                     // Inlined CFunc: _nba_sequent__TOP__0
+                    vlSelfRef.pc = vlSymsp->TOP__top.pc;
                     vlSelfRef.ebreak = vlSymsp->TOP__top.ebreak;
                     vlSelfRef.halt_code = vlSymsp->TOP__top.halt_code;
-                    vlSelfRef.pc = vlSymsp->TOP__top.pc;
                     vlSelfRef.top_inst = vlSymsp->TOP__top.__PVT__inst;
                 }
             }

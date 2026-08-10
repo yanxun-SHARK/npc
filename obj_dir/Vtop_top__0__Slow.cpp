@@ -13,18 +13,22 @@ VL_ATTR_COLD void Vtop_top___eval_initial__TOP__top(Vtop_top* vlSelf) {
     vlSymsp->_traceDumpOpen();
 }
 
-void Vtop_top____Vdpiimwrap_my_LSU__DOT__pmem_read_TOP__top(IData/*31:0*/ raddr, IData/*31:0*/ &pmem_read__Vfuncrtn);
+void Vtop_top____Vdpiimwrap_my_LSU__DOT__pmem_read_TOP__top(const VerilatedScope* __Vscopep, const char* __Vfilenamep, IData/*31:0*/ __Vlineno, IData/*31:0*/ raddr, IData/*31:0*/ &pmem_read__Vfuncrtn);
 
 VL_ATTR_COLD void Vtop_top___stl_sequent__TOP__top__0(Vtop_top* vlSelf) {
     VL_DEBUG_IF(VL_DBG_MSGF("+      Vtop_top___stl_sequent__TOP__top__0\n"); );
     Vtop__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
     auto& vlSelfRef = std::ref(*vlSelf).get();
     // Body
-    Vtop_top____Vdpiimwrap_my_LSU__DOT__pmem_read_TOP__top(vlSelfRef.__PVT__mem_addr, vlSelfRef.__Vfunc_my_LSU__DOT__pmem_read__2__Vfuncout);
+    Vtop_top____Vdpiimwrap_my_LSU__DOT__pmem_read_TOP__top(
+                                                           (vlSymsp->__Vscopep_top__my_LSU), 
+                                                           "vsrc/LSU.v", 0x0000000fU, vlSelfRef.__PVT__mem_addr, vlSelfRef.__Vfunc_my_LSU__DOT__pmem_read__2__Vfuncout);
     vlSelfRef.__PVT__mem_rdata = vlSelfRef.__Vfunc_my_LSU__DOT__pmem_read__2__Vfuncout;
     vlSelfRef.pc_ = vlSelfRef.__PVT__my_MBU__DOT__my_pc__DOT__pc;
     vlSelfRef.pc = vlSelfRef.pc_;
-    Vtop_top____Vdpiimwrap_my_LSU__DOT__pmem_read_TOP__top(vlSelfRef.pc_, vlSelfRef.__Vfunc_my_IFU__DOT__pmem_read__4__Vfuncout);
+    Vtop_top____Vdpiimwrap_my_LSU__DOT__pmem_read_TOP__top(
+                                                           (vlSymsp->__Vscopep_top__my_IFU), 
+                                                           "vsrc/IFU.v", 0x0000000bU, vlSelfRef.pc_, vlSelfRef.__Vfunc_my_IFU__DOT__pmem_read__4__Vfuncout);
     vlSelfRef.__PVT__inst = vlSelfRef.__Vfunc_my_IFU__DOT__pmem_read__4__Vfuncout;
     vlSelfRef.__PVT__imms = ((0x00000fe0U & (vlSelfRef.__PVT__inst 
                                              >> 0x00000014U)) 
@@ -47,13 +51,13 @@ VL_ATTR_COLD void Vtop_top___stl_sequent__TOP__top__0(Vtop_top* vlSelf) {
                                    | (0x000003ffU & 
                                       (vlSelfRef.__PVT__inst 
                                        >> 0x00000015U)))));
-    vlSelfRef.__PVT__src1 = (vlSelfRef.__PVT__my_MBU__DOT__my_reg__DOT__rf
+    vlSelfRef.__PVT__src1 = (vlSelfRef.my_MBU__DOT__my_reg__DOT__rf
                              [(0x0000001fU & (vlSelfRef.__PVT__inst 
                                               >> 0x0000000fU))] 
                              & (- (IData)((0U != (0x0000001fU 
                                                   & (vlSelfRef.__PVT__inst 
                                                      >> 0x0000000fU))))));
-    vlSelfRef.__PVT__src2 = (vlSelfRef.__PVT__my_MBU__DOT__my_reg__DOT__rf
+    vlSelfRef.__PVT__src2 = (vlSelfRef.my_MBU__DOT__my_reg__DOT__rf
                              [(0x0000001fU & (vlSelfRef.__PVT__inst 
                                               >> 0x00000014U))] 
                              & (- (IData)((0U != (0x0000001fU 
@@ -93,7 +97,7 @@ VL_ATTR_COLD void Vtop_top___ctor_var_reset(Vtop_top* vlSelf) {
     vlSelf->__PVT__my_MBU__DOT__my_pc__DOT__pc = VL_SCOPED_RAND_RESET_I(32, __VscopeHash, 16563017890665908429ull);
     vlSelf->__PVT__my_MBU__DOT__my_pc__DOT__pc_4 = VL_SCOPED_RAND_RESET_I(32, __VscopeHash, 5617482701627667033ull);
     for (int __Vi0 = 0; __Vi0 < 32; ++__Vi0) {
-        vlSelf->__PVT__my_MBU__DOT__my_reg__DOT__rf[__Vi0] = VL_SCOPED_RAND_RESET_I(32, __VscopeHash, 17552125731258403864ull);
+        vlSelf->my_MBU__DOT__my_reg__DOT__rf[__Vi0] = VL_SCOPED_RAND_RESET_I(32, __VscopeHash, 17552125731258403864ull);
     }
     vlSelf->__PVT__my_MBU__DOT__my_reg__DOT__i = VL_SCOPED_RAND_RESET_I(32, __VscopeHash, 11435095448336781970ull);
     vlSelf->__Vfunc_my_LSU__DOT__pmem_read__2__Vfuncout = 0;

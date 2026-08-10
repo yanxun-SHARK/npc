@@ -42,7 +42,7 @@ class alignas(VL_CACHE_LINE_BYTES) Vtop_top final {
     IData/*31:0*/ __PVT__my_MBU__DOT__my_reg__DOT__i;
     IData/*31:0*/ __Vfunc_my_LSU__DOT__pmem_read__2__Vfuncout;
     IData/*31:0*/ __Vfunc_my_IFU__DOT__pmem_read__4__Vfuncout;
-    VlUnpacked<IData/*31:0*/, 32> __PVT__my_MBU__DOT__my_reg__DOT__rf;
+    VlUnpacked<IData/*31:0*/, 32> my_MBU__DOT__my_reg__DOT__rf;
 
     // INTERNAL VARIABLES
     Vtop__Syms* vlSymsp;

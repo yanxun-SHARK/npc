@@ -61,7 +61,11 @@ module RegisterFile #(parameter ADDR_WIDTH =`ADDR_W, parameter DATA_WIDTH =`DATA
 
 );
 
-    reg [DATA_WIDTH-1:0] rf [2**ADDR_WIDTH-1:0];
+    function int read_reg(input int idx);
+    read_reg = (idx == 0) ? 32'h0 : rf[idx];
+    endfunction
+
+    reg [DATA_WIDTH-1:0] rf [2**ADDR_WIDTH-1:0]/*verilator public_flat*/;;
     integer i;
     always @(posedge clk) begin
         if (rst) begin
@@ -88,8 +92,11 @@ module PC_reg #(parameter DATA_WIDTH =`DATA_W) (
     output [DATA_WIDTH-1:0] pc_out
     
 );
-    reg [DATA_WIDTH-1:0] pc,pc_4;
 
+    function int read_pc();
+        read_pc = pc;
+    endfunction
+    reg [DATA_WIDTH-1:0] pc,pc_4;
     always @(posedge clk) begin
         if (rst) begin
             pc   <= 32'h80000000;

@@ -53,22 +53,22 @@ void Vtop___024root__trace_chg_0_sub_0(Vtop___024root* vlSelf, VerilatedVcd::Buf
         bufp->chgCData(oldp+17,(vlSymsp->TOP__top.__PVT__mem_wmask),4);
         bufp->chgIData(oldp+18,(vlSymsp->TOP__top.__PVT__mem_rdata),32);
         bufp->chgIData(oldp+19,(vlSymsp->TOP__top.__PVT__rf_wdata),32);
-        bufp->chgIData(oldp+20,(vlSymsp->TOP__top.__PVT__my_MBU__DOT__my_reg__DOT__rf[10U]),32);
-        bufp->chgIData(oldp+21,(vlSymsp->TOP__top.__PVT__jal_target),32);
-        bufp->chgIData(oldp+22,(vlSymsp->TOP__top.__PVT__my_MBU__DOT__my_pc__DOT__pc),32);
-        bufp->chgIData(oldp+23,(vlSymsp->TOP__top.__PVT__my_MBU__DOT__my_pc__DOT__pc_4),32);
-        Vtop___024root__trace_chg_dtype____0(vlSelf, bufp, 24, vlSymsp->TOP__top.__PVT__my_MBU__DOT__my_reg__DOT__rf);
-        bufp->chgIData(oldp+56,(vlSymsp->TOP__top.__PVT__my_MBU__DOT__my_reg__DOT__i),32);
+        bufp->chgIData(oldp+20,(vlSymsp->TOP__top.__PVT__jal_target),32);
+        bufp->chgIData(oldp+21,(vlSymsp->TOP__top.__PVT__my_MBU__DOT__my_pc__DOT__pc),32);
+        bufp->chgIData(oldp+22,(vlSymsp->TOP__top.__PVT__my_MBU__DOT__my_pc__DOT__pc_4),32);
+        bufp->chgIData(oldp+23,(vlSymsp->TOP__top.__PVT__my_MBU__DOT__my_reg__DOT__i),32);
     }
-    bufp->chgBit(oldp+57,(vlSelfRef.clk));
-    bufp->chgBit(oldp+58,(vlSelfRef.rst));
-    bufp->chgBit(oldp+59,(vlSelfRef.ebreak));
-    bufp->chgIData(oldp+60,(vlSelfRef.pc),32);
-    bufp->chgIData(oldp+61,(vlSelfRef.halt_code),32);
-    bufp->chgBit(oldp+62,(vlSymsp->TOP__top.ebreak));
-    bufp->chgIData(oldp+63,(vlSymsp->TOP__top.pc),32);
-    bufp->chgIData(oldp+64,(vlSymsp->TOP__top.halt_code),32);
-    bufp->chgIData(oldp+65,(vlSymsp->TOP__top.pc_),32);
+    bufp->chgBit(oldp+24,(vlSelfRef.clk));
+    bufp->chgBit(oldp+25,(vlSelfRef.rst));
+    bufp->chgBit(oldp+26,(vlSelfRef.ebreak));
+    bufp->chgIData(oldp+27,(vlSelfRef.pc),32);
+    bufp->chgIData(oldp+28,(vlSelfRef.halt_code),32);
+    bufp->chgBit(oldp+29,(vlSymsp->TOP__top.ebreak));
+    bufp->chgIData(oldp+30,(vlSymsp->TOP__top.pc),32);
+    bufp->chgIData(oldp+31,(vlSymsp->TOP__top.halt_code),32);
+    bufp->chgIData(oldp+32,(vlSymsp->TOP__top.pc_),32);
+    bufp->chgIData(oldp+33,(vlSymsp->TOP__top.my_MBU__DOT__my_reg__DOT__rf[10U]),32);
+    Vtop___024root__trace_chg_dtype____0(vlSelf, bufp, 34, vlSymsp->TOP__top.my_MBU__DOT__my_reg__DOT__rf);
 }
 
 void Vtop___024root__trace_chg_dtype____0(Vtop___024root* vlSelf, VerilatedVcd::Buffer* bufp, uint32_t offset, const VlUnpacked<IData/*31:0*/, 32>& __VdtypeVar) {

@@ -1,4 +1,3 @@
-`define  ADDR_W 5
 `define  DATA_W 32
 module EXU#(parameter DATA_WIDTH =`DATA_W)(
     input  clk,
@@ -85,7 +84,7 @@ module ALU #(parameter DATA_WIDTH =`DATA_W)(
     output reg [DATA_WIDTH-1:0] halt_code,
     output     [DATA_WIDTH-1:0] jal_target
 );
-    import "DPI-C" function void ebreak_notice(input int halt_code);
+    import "DPI-C" context function void ebreak_notice(input int halt_code);
 
     parameter EBREAK  = 32'b00000000000100000000000001110011;
     //TYPE_J
@@ -146,233 +145,233 @@ module ALU #(parameter DATA_WIDTH =`DATA_W)(
         end
         else begin
             // default: 
-            mem_we    = 0;
-            mem_wmask = 4'b0;
-            rf_wen    = 0;
-            jal       = 0;
-            ebreak    = 0;
-            halt_code = 0;
+            mem_we    <= 0;
+            mem_wmask <= 4'b0;
+            rf_wen    <= 0;
+            jal       <= 0;
+            ebreak    <= 0;
+            halt_code <= 0;
             casez(inst)
                 EBREAK  : begin
-                    ebreak    = 1;
-                    halt_code = a0_val;
+                    ebreak    <= 1;
+                    halt_code <= a0_val;
                     ebreak_notice(a0_val);
                 end
                 BEQ   : begin
-                    mem_addr = pc + {{19{immb[11]}}, immb, 1'b0};
-                    jal  = (src1 == src2) ? 1 : 0;
+                    mem_addr <= pc + {{19{immb[11]}}, immb, 1'b0};
+                    jal  <= (src1 == src2) ? 1 : 0;
                 end
                 BNE   : begin
-                    mem_addr = pc + {{19{immb[11]}}, immb, 1'b0};
-                    jal  = (src1 != src2) ? 1 : 0;
+                    mem_addr <= pc + {{19{immb[11]}}, immb, 1'b0};
+                    jal  <= (src1 != src2) ? 1 : 0;
                 end
                 BGE   : begin
-                    mem_addr = pc + {{19{immb[11]}}, immb, 1'b0};
-                    jal  = ($signed(src1) >= $signed(src2)) ? 1 : 0;
+                    mem_addr <= pc + {{19{immb[11]}}, immb, 1'b0};
+                    jal  <= ($signed(src1) >= $signed(src2)) ? 1 : 0;
                 end
                 BLT   : begin
-                    mem_addr = pc + {{19{immb[11]}}, immb, 1'b0};
-                    jal  = ($signed(src1) < $signed(src2)) ? 1 : 0;
+                    mem_addr <= pc + {{19{immb[11]}}, immb, 1'b0};
+                    jal  <= ($signed(src1) < $signed(src2)) ? 1 : 0;
                 end 
                 BGEU  : begin
-                    mem_addr = pc + {{19{immb[11]}}, immb, 1'b0};
-                    jal  = (src1 >= src2) ? 1 : 0;
+                    mem_addr <= pc + {{19{immb[11]}}, immb, 1'b0};
+                    jal  <= (src1 >= src2) ? 1 : 0;
                 end
                 BLTU  : begin
-                    mem_addr = pc + {{19{immb[11]}}, immb, 1'b0};
-                    jal  = (src1 < src2) ? 1 : 0;
+                    mem_addr <= pc + {{19{immb[11]}}, immb, 1'b0};
+                    jal  <= (src1 < src2) ? 1 : 0;
                 end
                 ADD   : begin
-                    mem_addr = src1 + src2;
-                    rf_wen   = 1;
-                    rf_waddr = inst[11:7];
-                    rf_wdata = src1 + src2;
+                    mem_addr <= src1 + src2;
+                    rf_wen   <= 1;
+                    rf_waddr <= inst[11:7];
+                    rf_wdata <= src1 + src2;
                 end
                 SUB   : begin
-                    mem_addr = src1 + src2;
-                    rf_wen   = 1;
-                    rf_waddr = inst[11:7];
-                    rf_wdata = src1 - src2;
+                    mem_addr <= src1 + src2;
+                    rf_wen   <= 1;
+                    rf_waddr <= inst[11:7];
+                    rf_wdata <= src1 - src2;
                 end
                 SLTU  : begin
-                    mem_addr = src1 + src2;
-                    rf_wen   = 1;
-                    rf_waddr = inst[11:7];
-                    rf_wdata = (src1 < src2) ? 1 : 0;
+                    mem_addr <= src1 + src2;
+                    rf_wen   <= 1;
+                    rf_waddr <= inst[11:7];
+                    rf_wdata <= (src1 < src2) ? 1 : 0;
                 end
                 XOR   : begin
-                    mem_addr = src1 + src2;
-                    rf_wen   = 1;
-                    rf_waddr = inst[11:7];
-                    rf_wdata = src1 ^ src2;
+                    mem_addr <= src1 + src2;
+                    rf_wen   <= 1;
+                    rf_waddr <= inst[11:7];
+                    rf_wdata <= src1 ^ src2;
                 end
                 OR    : begin
-                    mem_addr = src1 + src2;
-                    rf_wen   = 1;
-                    rf_waddr = inst[11:7];
-                    rf_wdata = src1 | src2;
+                    mem_addr <= src1 + src2;
+                    rf_wen   <= 1;
+                    rf_waddr <= inst[11:7];
+                    rf_wdata <= src1 | src2;
                 end
                 SLL   : begin
-                    mem_addr = src1 + src2;
-                    rf_wen   = 1;
-                    rf_waddr = inst[11:7];
-                    rf_wdata = src1 <<(src2 & 32'h1f);
+                    mem_addr <= src1 + src2;
+                    rf_wen   <= 1;
+                    rf_waddr <= inst[11:7];
+                    rf_wdata <= src1 <<(src2 & 32'h1f);
                 end
                 AND   : begin
-                    mem_addr = src1 + src2;
-                    rf_wen   = 1;
-                    rf_waddr = inst[11:7];
-                    rf_wdata = src1 & src2;
+                    mem_addr <= src1 + src2;
+                    rf_wen   <= 1;
+                    rf_waddr <= inst[11:7];
+                    rf_wdata <= src1 & src2;
                 end
                 SLT   : begin
-                    mem_addr = src1 + src2;
-                    rf_wen   = 1;
-                    rf_waddr = inst[11:7];
-                    rf_wdata = ($signed(src1) < $signed(src2)) ? 1 : 0;
+                    mem_addr <= src1 + src2;
+                    rf_wen   <= 1;
+                    rf_waddr <= inst[11:7];
+                    rf_wdata <= ($signed(src1) < $signed(src2)) ? 1 : 0;
                 end
                 SRL   : begin
-                    mem_addr = src1 + src2;
-                    rf_wen   = 1;
-                    rf_waddr = inst[11:7];
-                    rf_wdata = src1 >> (src2 & 32'h1f);
+                    mem_addr <= src1 + src2;
+                    rf_wen   <= 1;
+                    rf_waddr <= inst[11:7];
+                    rf_wdata <= src1 >> (src2 & 32'h1f);
                 end
                 SRA   : begin
-                    mem_addr = src1 + src2;
-                    rf_wen   = 1;
-                    rf_waddr = inst[11:7];
-                    rf_wdata = $signed(src1) >>> (src2 & 32'h1f);
+                    mem_addr <= src1 + src2;
+                    rf_wen   <= 1;
+                    rf_waddr <= inst[11:7];
+                    rf_wdata <= $signed(src1) >>> (src2 & 32'h1f);
                 end
 
                 JALR  : begin
-                    jal_target = (src1 + {{20{immi[11]}}, immi}) & ~1;
-                    rf_wen   = 1;
-                    rf_waddr = inst[11:7];
-                    rf_wdata = pc + 4;
-                    jal      = 1;
+                    jal_target <= (src1 + {{20{immi[11]}}, immi}) & ~1;
+                    rf_wen   <= 1;
+                    rf_waddr <= inst[11:7];
+                    rf_wdata <= pc + 4;
+                    jal      <= 1;
                 end
                 JAL   : begin
-                    jal_target = pc + {{11{immj[19]}}, immj, 1'b0};
-                    rf_wen   = 1;
-                    rf_wdata = pc + 4;
-                    rf_waddr = inst[11:7];
-                    jal      = 1;
+                    jal_target <= pc + {{11{immj[19]}}, immj, 1'b0};
+                    rf_wen   <= 1;
+                    rf_wdata <= pc + 4;
+                    rf_waddr <= inst[11:7];
+                    jal      <= 1;
                 end
                 LB    : begin
-                    mem_addr = src1 + {{20{immi[11]}}, immi};
-                    rf_wen   = 1;
-                    rf_waddr = inst[11:7];
-                    rf_wdata = {{24{mem_rdata[7]}}, mem_rdata[7:0]};
+                    mem_addr <= src1 + {{20{immi[11]}}, immi};
+                    rf_wen   <= 1;
+                    rf_waddr <= inst[11:7];
+                    rf_wdata <= {{24{mem_rdata[7]}}, mem_rdata[7:0]};
                 end
                 LH    : begin
-                    mem_addr = src1 + {{20{immi[11]}}, immi};
-                    rf_wen   = 1;
-                    rf_waddr = inst[11:7];
-                    rf_wdata = {{16{mem_rdata[15]}}, mem_rdata[15:0]};
+                    mem_addr <= src1 + {{20{immi[11]}}, immi};
+                    rf_wen   <= 1;
+                    rf_waddr <= inst[11:7];
+                    rf_wdata <= {{16{mem_rdata[15]}}, mem_rdata[15:0]};
                 end
                 LW    : begin
-                    mem_addr = src1 + {{20{immi[11]}}, immi};
-                    rf_wen   = 1;
-                    rf_waddr = inst[11:7];
-                    rf_wdata = mem_rdata;
+                    mem_addr <= src1 + {{20{immi[11]}}, immi};
+                    rf_wen   <= 1;
+                    rf_waddr <= inst[11:7];
+                    rf_wdata <= mem_rdata;
                 end
                 LBU   : begin
-                    mem_addr = src1 + {{20{immi[11]}}, immi};
-                    rf_wen   = 1;
-                    rf_waddr = inst[11:7];
-                    rf_wdata = {24'b0, mem_rdata[7:0]};
+                    mem_addr <= src1 + {{20{immi[11]}}, immi};
+                    rf_wen   <= 1;
+                    rf_waddr <= inst[11:7];
+                    rf_wdata <= {24'b0, mem_rdata[7:0]};
                 end
                 LHU   : begin
-                    mem_addr = src1 + {{20{immi[11]}}, immi};
-                    rf_wen   = 1;
-                    rf_waddr = inst[11:7];
-                    rf_wdata = {16'b0, mem_rdata[15:0]};
+                    mem_addr <= src1 + {{20{immi[11]}}, immi};
+                    rf_wen   <= 1;
+                    rf_waddr <= inst[11:7];
+                    rf_wdata <= {16'b0, mem_rdata[15:0]};
                 end
                 ADDI  : begin
-                    mem_addr = src1 + {{20{immi[11]}}, immi};
-                    rf_wen   = 1;
-                    rf_waddr = inst[11:7];
-                    rf_wdata = src1 + {{20{immi[11]}}, immi};
+                    mem_addr <= src1 + {{20{immi[11]}}, immi};
+                    rf_wen   <= 1;
+                    rf_waddr <= inst[11:7];
+                    rf_wdata <= src1 + {{20{immi[11]}}, immi};
                 end
                 SW    : begin
-                    mem_addr  = src1 + {{20{imms[11]}}, imms};
-                    mem_wdata = src2;
-                    mem_wmask = 4'b1111;
-                    mem_we    = 1;
+                    mem_addr  <= src1 + {{20{imms[11]}}, imms};
+                    mem_wdata <= src2;
+                    mem_wmask <= 4'b1111;
+                    mem_we    <= 1;
                 end
                 SH    : begin
-                    mem_addr  = src1 + {{20{imms[11]}}, imms};
-                    mem_wdata = src2;
-                    mem_wmask = 4'b0011;
-                    mem_we    = 1;
+                    mem_addr  <= src1 + {{20{imms[11]}}, imms};
+                    mem_wdata <= src2;
+                    mem_wmask <= 4'b0011;
+                    mem_we    <= 1;
                 end 
                 SB    : begin
-                    mem_addr  = src1 + {{20{imms[11]}}, imms};
-                    mem_wdata = src2;
-                    mem_wmask = 4'b0001;
-                    mem_we    = 1;
+                    mem_addr  <= src1 + {{20{imms[11]}}, imms};
+                    mem_wdata <= src2;
+                    mem_wmask <= 4'b0001;
+                    mem_we    <= 1;
                 end
                 LUI   : begin
-                    mem_addr = {immu, 12'b0};
-                    rf_wen   = 1;
-                    rf_waddr = inst[11:7];
-                    rf_wdata = {immu, 12'b0};
+                    mem_addr <= {immu, 12'b0};
+                    rf_wen   <= 1;
+                    rf_waddr <= inst[11:7];
+                    rf_wdata <= {immu, 12'b0};
                 end
                 AUIPC : begin
-                    mem_addr = {immu, 12'b0};
-                    rf_wen   = 1;
-                    rf_waddr = inst[11:7];
-                    rf_wdata = {immu, 12'b0} + pc;
+                    mem_addr <= {immu, 12'b0};
+                    rf_wen   <= 1;
+                    rf_waddr <= inst[11:7];
+                    rf_wdata <= {immu, 12'b0} + pc;
                 end
                 SLTI  : begin
-                    mem_addr = src1 + {{20{immi[11]}}, immi};
-                    rf_wen   = 1;
-                    rf_waddr = inst[11:7];
-                    rf_wdata = ($signed(src1) < $signed({{20{immi[11]}}, immi})) ? 1 : 0;
+                    mem_addr <= src1 + {{20{immi[11]}}, immi};
+                    rf_wen   <= 1;
+                    rf_waddr <= inst[11:7];
+                    rf_wdata <= ($signed(src1) < $signed({{20{immi[11]}}, immi})) ? 1 : 0;
                 end
                 SLTIU : begin
-                    mem_addr = src1 + {{20{immi[11]}}, immi};
-                    rf_wen   = 1;
-                    rf_waddr = inst[11:7];
-                    rf_wdata = (src1 < {20'b0, immi}) ? 1 : 0;
+                    mem_addr <= src1 + {{20{immi[11]}}, immi};
+                    rf_wen   <= 1;
+                    rf_waddr <= inst[11:7];
+                    rf_wdata <= (src1 < {20'b0, immi}) ? 1 : 0;
                 end
                 XORI  : begin
-                    mem_addr = src1 + {{20{immi[11]}}, immi};
-                    rf_wen   = 1;
-                    rf_waddr = inst[11:7];
-                    rf_wdata = (src1 ^ {{20{immi[11]}}, immi});
+                    mem_addr <= src1 + {{20{immi[11]}}, immi};
+                    rf_wen   <= 1;
+                    rf_waddr <= inst[11:7];
+                    rf_wdata <= (src1 ^ {{20{immi[11]}}, immi});
                 end
                 ORI   : begin
-                    mem_addr = src1 + {{20{immi[11]}}, immi};
-                    rf_wen   = 1;
-                    rf_waddr = inst[11:7];
-                    rf_wdata = (src1 | {{20{immi[11]}}, immi});
+                    mem_addr <= src1 + {{20{immi[11]}}, immi};
+                    rf_wen   <= 1;
+                    rf_waddr <= inst[11:7];
+                    rf_wdata <= (src1 | {{20{immi[11]}}, immi});
                 end
                 ANDI  : begin
-                    mem_addr = src1 + {{20{immi[11]}}, immi};
-                    rf_wen   = 1;
-                    rf_waddr = inst[11:7];
-                    rf_wdata = (src1 & {{20{immi[11]}}, immi});
+                    mem_addr <= src1 + {{20{immi[11]}}, immi};
+                    rf_wen   <= 1;
+                    rf_waddr <= inst[11:7];
+                    rf_wdata <= (src1 & {{20{immi[11]}}, immi});
                 end
                 SRAI  : begin
-                    mem_addr = src1 + {{20{immi[11]}}, immi};
-                    rf_wen   = 1;
-                    rf_waddr = inst[11:7];
-                    rf_wdata = $signed(src1) >>> (immi & 6'b011111);
+                    mem_addr <= src1 + {{20{immi[11]}}, immi};
+                    rf_wen   <= 1;
+                    rf_waddr <= inst[11:7];
+                    rf_wdata <= $signed(src1) >>> (immi & 6'b011111);
                 end
                 SLLI  : begin
-                    mem_addr = src1 + {{20{immi[11]}}, immi};
-                    rf_wen   = 1;
-                    rf_waddr = inst[11:7];
-                    rf_wdata = src1 << (immi & 6'b011111);
+                    mem_addr <= src1 + {{20{immi[11]}}, immi};
+                    rf_wen   <= 1;
+                    rf_waddr <= inst[11:7];
+                    rf_wdata <= src1 << (immi & 6'b011111);
                 end
                 SRLI  : begin
-                    mem_addr = src1 + {{20{immi[11]}}, immi};
-                    rf_wen   = 1;
-                    rf_waddr = inst[11:7];
-                    rf_wdata = src1 >> (immi & 6'b011111);
+                    mem_addr <= src1 + {{20{immi[11]}}, immi};
+                    rf_wen   <= 1;
+                    rf_waddr <= inst[11:7];
+                    rf_wdata <= src1 >> (immi & 6'b011111);
                 end
                 default : begin
-                    mem_addr = 0;
+                    mem_addr <= 0;
                     $display("UNKNOWN INST: pc=%h inst=%h", pc, inst);
                     ebreak_notice(halt_code);
                 end

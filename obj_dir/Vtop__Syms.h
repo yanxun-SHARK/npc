@@ -40,6 +40,10 @@ class alignas(VL_CACHE_LINE_BYTES) Vtop__Syms final : public VerilatedSyms {
     // SCOPE NAMES
     VerilatedScope* __Vscopep_TOP;
     VerilatedScope* __Vscopep_top;
+    VerilatedScope* __Vscopep_top__my_EXU__my_alu;
+    VerilatedScope* __Vscopep_top__my_IFU;
+    VerilatedScope* __Vscopep_top__my_LSU;
+    VerilatedScope* __Vscopep_top__my_MBU__my_reg;
 
     // CONSTRUCTORS
     Vtop__Syms(VerilatedContext* contextp, const char* namep, Vtop* modelp);
