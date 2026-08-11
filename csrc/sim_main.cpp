@@ -37,9 +37,10 @@ static bool ebreak_tip = false;
 extern "C" void ebreak_notice (int halt_code){
         ebreak_tip = true;
 };
-void init_difftest(long img_size, int port);
-void difftest_step();
+IFDEF(CONFIG_DIFFTEST, void init_difftest(long img_size, int port);)
+IFDEF(CONFIG_DIFFTEST, void difftest_step();)
 void sdb_mainloop();
+void sdb_set_batch_mode();
 void NPC_exec(int n );
 int  check_watchpoints();
 void init_itrace();
@@ -163,7 +164,8 @@ int main(int argc, char **argv) {
 }       
         EvalRst();
         
-        init_difftest(img_size, 0);
+        IFDEF(CONFIG_DIFFTEST, init_difftest(img_size, 0);)
+        IFDEF(CONFIG_BATCH, sdb_set_batch_mode();)
         sdb_mainloop();
         
         printf("Exit loop: nn=%d, ebreak=%d, halt_code=%d, pc=0x%x\n", nn, top->ebreak, top->halt_code, top->pc);
@@ -202,7 +204,7 @@ void NPC_exec(int n ) {
         })
         EvalOnce();
         nn++;
-        difftest_step();
+        IFDEF(CONFIG_DIFFTEST, difftest_step();)
         int wp_no = check_watchpoints();
         if (wp_no >= 0) {
         printf("Watchpoint %d triggered!\n", wp_no);

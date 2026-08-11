@@ -2,7 +2,7 @@
 #include "common.h"
 #include <assert.h>
 #include <dlfcn.h>
-
+#include "autoconf.h"
 void (*ref_difftest_memcpy)(paddr_t addr, void *buf, size_t n, bool direction) = NULL;
 void (*ref_difftest_regcpy)(void *dut, bool direction) = NULL;
 void (*ref_difftest_exec)(uint64_t n) = NULL;
@@ -53,14 +53,16 @@ void difftest_step() {
   ref_difftest_regcpy(ref_r, DIFFTEST_TO_DUT);
   uint32_t val_reg[33];
   uint32_t val_pc;
+  val_pc = read_pc();
   for (int i = 0 ; i < 32 ; i++) {
     val_reg[i] = read_reg(i);
     if (val_reg[i] != ref_r[i]) {
-      panic("can not catch up with REF = 0x%08x DUT = 0x%08x ", ref_r[i], val_reg[i]);
+      panic("can not catch up with 0x%08x : REF = 0x%08x 0x%08x : DUT = 0x%08x ,",ref_r[32], ref_r[i],val_pc, val_reg[i]);
     }
   }
-  val_pc = read_pc();
+  
   if (val_pc !=ref_r[32]) {
     panic("can not catch up with ref.pc = 0x%08x at pc = 0x%08x", ref_r[32], val_pc);
   }
+  ref_difftest_memcpy(CONFIG_MBASE, pmem, 0x100000, DIFFTEST_TO_REF);
 }

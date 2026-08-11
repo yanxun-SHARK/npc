@@ -11,6 +11,8 @@ VL_ATTR_COLD void Vtop___024root___eval_static(Vtop___024root* vlSelf) {
     // Body
     vlSelfRef.__Vtrigprevexpr___TOP__clk__0 = vlSelfRef.clk;
     vlSelfRef.__Vtrigprevexpr___TOP__rst__0 = vlSelfRef.rst;
+    vlSelfRef.__Vtrigprevexpr___TOP__top____PVT__mem_addr__0 
+        = vlSymsp->TOP__top.__PVT__mem_addr;
     vlSelfRef.__Vtrigprevexpr___TOP__clk__1 = vlSelfRef.clk;
 }
 
@@ -112,22 +114,21 @@ VL_ATTR_COLD bool Vtop___024root___eval_phase__stl(Vtop___024root* vlSelf) {
         {
             // Inlined CFunc: _eval_stl
             if ((1ULL & vlSelfRef.__VstlTriggered[0U])) {
-                {
-                    // Inlined CFunc: _ico_sequent__TOP__0
-                    vlSelfRef.halt_code = vlSymsp->TOP__top.halt_code;
-                    vlSelfRef.ebreak = vlSymsp->TOP__top.ebreak;
-                }
+                Vtop_top___stl_sequent__TOP__top__0((&vlSymsp->TOP__top));
                 {
                     // Inlined CFunc: __Vm_traceActivitySetAll
                     vlSelfRef.__Vm_traceActivity[0U] = 1U;
                     vlSelfRef.__Vm_traceActivity[1U] = 1U;
                     vlSelfRef.__Vm_traceActivity[2U] = 1U;
+                    vlSelfRef.__Vm_traceActivity[3U] = 1U;
+                    vlSelfRef.__Vm_traceActivity[4U] = 1U;
                 }
-                Vtop_top___stl_sequent__TOP__top__0((&vlSymsp->TOP__top));
                 {
-                    // Inlined CFunc: _ico_sequent__TOP__1
+                    // Inlined CFunc: _nba_sequent__TOP__0
                     vlSelfRef.pc = vlSymsp->TOP__top.pc;
                     vlSelfRef.top_inst = vlSymsp->TOP__top.__PVT__inst;
+                    vlSelfRef.ebreak = vlSymsp->TOP__top.ebreak;
+                    vlSelfRef.halt_code = vlSymsp->TOP__top.halt_code;
                 }
             }
         }
@@ -166,7 +167,13 @@ VL_ATTR_COLD void Vtop___024root___dump_triggers__act(const VlUnpacked<QData/*63
         VL_DBG_MSGS("         No '" + tag + "' region triggers active\n");
     }
     if ((1U & (IData)(triggers[0U]))) {
-        VL_DBG_MSGS("         '" + tag + "' region trigger index 0 is active: @(posedge clk)\n");
+        VL_DBG_MSGS("         '" + tag + "' region trigger index 0 is active: @( top.mem_addr)\n");
+    }
+    if ((1U & (IData)((triggers[0U] >> 1U)))) {
+        VL_DBG_MSGS("         '" + tag + "' region trigger index 1 is active: @( clk)\n");
+    }
+    if ((1U & (IData)((triggers[0U] >> 2U)))) {
+        VL_DBG_MSGS("         '" + tag + "' region trigger index 2 is active: @(posedge clk)\n");
     }
 }
 #endif  // VL_DEBUG
@@ -195,11 +202,13 @@ VL_ATTR_COLD void Vtop___024root___ctor_var_reset(Vtop___024root* vlSelf) {
     for (int __Vi0 = 0; __Vi0 < 1; ++__Vi0) {
         vlSelf->__VactTriggered[__Vi0] = 0;
     }
+    vlSelf->__Vtrigprevexpr___TOP__top____PVT__mem_addr__0 = 0;
     vlSelf->__Vtrigprevexpr___TOP__clk__1 = 0;
+    vlSelf->__VactDidInit = 0;
     for (int __Vi0 = 0; __Vi0 < 1; ++__Vi0) {
         vlSelf->__VnbaTriggered[__Vi0] = 0;
     }
-    for (int __Vi0 = 0; __Vi0 < 3; ++__Vi0) {
+    for (int __Vi0 = 0; __Vi0 < 5; ++__Vi0) {
         vlSelf->__Vm_traceActivity[__Vi0] = 0;
     }
 }

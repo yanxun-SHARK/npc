@@ -5,7 +5,6 @@ module WBU #(parameter ADDR_WIDTH =`ADDR_W, parameter DATA_WIDTH =`DATA_W) (
     input  wen,
     input  rst,
     input  jal,
-    input  [DATA_WIDTH-1:0] addr,
     input  [ADDR_WIDTH-1:0] waddr,
     input  [DATA_WIDTH-1:0] wdata,
     input  [ADDR_WIDTH-1:0] raddr_1,
@@ -39,7 +38,6 @@ module WBU #(parameter ADDR_WIDTH =`ADDR_W, parameter DATA_WIDTH =`DATA_W) (
         .rst       (rst),
         .clk       (clk),
         .jal       (jal),
-        .addr      (addr),
         .pc_out    (pc_out),
         .jal_target(jal_target)
     ); 
@@ -87,7 +85,6 @@ module PC_reg #(parameter DATA_WIDTH =`DATA_W) (
     input  clk,
     input  jal,
     input  rst,
-    input  [DATA_WIDTH-1:0] addr,
     input  [DATA_WIDTH-1:0] jal_target,
     output [DATA_WIDTH-1:0] pc_out
     

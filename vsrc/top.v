@@ -108,14 +108,13 @@ end
   );
 
 
-  WBU# (.DATA_WIDTH (`DATA_W))
-  my_MBU(
-    .clk    (clk),
-    .rst    (rst),
-    .wen    (rf_wen),
-    .jal    (jal),
-    .addr   (mem_addr),
-    .waddr  (rf_waddr),
+   WBU# (.DATA_WIDTH (`DATA_W))
+   my_MBU(
+     .clk    (clk),
+     .rst    (rst),
+     .wen    (rf_wen),
+     .jal    (jal),
+     .waddr  (rf_waddr),
     .wdata  (rf_wdata),
     .raddr_1(rs1),
     .raddr_2(rs2),

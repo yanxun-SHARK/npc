@@ -11,7 +11,7 @@ module LSU#(parameter DATA_WIDTH =`DATA_W)(
     import "DPI-C" context function int pmem_read(input int raddr);
     import "DPI-C" context function void pmem_write(input int waddr, input int wdata, input byte wmask);
 
-    always @(*) begin
+    always @(clk or addr) begin
         rdata = pmem_read(addr);
     end
     always @(posedge clk) begin

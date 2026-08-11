@@ -25,7 +25,7 @@ void Vtop___024root__trace_chg_0_sub_0(Vtop___024root* vlSelf, VerilatedVcd::Buf
     // Body
     uint32_t* const oldp VL_ATTR_UNUSED = bufp->oldp(vlSymsp->__Vm_baseCode + 0);
     if (VL_UNLIKELY(((vlSelfRef.__Vm_traceActivity[1U] 
-                      | vlSelfRef.__Vm_traceActivity[2U])))) {
+                      | vlSelfRef.__Vm_traceActivity[4U])))) {
         bufp->chgIData(oldp+0,(vlSymsp->TOP__top.__PVT__inst),32);
         bufp->chgCData(oldp+1,((0x0000001fU & (vlSymsp->TOP__top.__PVT__inst 
                                                >> 0x0000000fU))),5);
@@ -43,7 +43,9 @@ void Vtop___024root__trace_chg_0_sub_0(Vtop___024root* vlSelf, VerilatedVcd::Buf
         bufp->chgIData(oldp+9,(vlSymsp->TOP__top.__PVT__src1),32);
         bufp->chgIData(oldp+10,(vlSymsp->TOP__top.__PVT__src2),32);
     }
-    if (VL_UNLIKELY((vlSelfRef.__Vm_traceActivity[2U]))) {
+    if (VL_UNLIKELY((((vlSelfRef.__Vm_traceActivity[2U] 
+                       | vlSelfRef.__Vm_traceActivity[3U]) 
+                      | vlSelfRef.__Vm_traceActivity[4U])))) {
         bufp->chgBit(oldp+11,(vlSymsp->TOP__top.__PVT__mem_we));
         bufp->chgBit(oldp+12,(vlSymsp->TOP__top.__PVT__rf_wen));
         bufp->chgBit(oldp+13,(vlSymsp->TOP__top.__PVT__jal));
@@ -51,22 +53,24 @@ void Vtop___024root__trace_chg_0_sub_0(Vtop___024root* vlSelf, VerilatedVcd::Buf
         bufp->chgIData(oldp+15,(vlSymsp->TOP__top.__PVT__mem_addr),32);
         bufp->chgIData(oldp+16,(vlSymsp->TOP__top.__PVT__mem_wdata),32);
         bufp->chgCData(oldp+17,(vlSymsp->TOP__top.__PVT__mem_wmask),4);
-        bufp->chgIData(oldp+18,(vlSymsp->TOP__top.__PVT__mem_rdata),32);
-        bufp->chgIData(oldp+19,(vlSymsp->TOP__top.__PVT__rf_wdata),32);
-        bufp->chgIData(oldp+20,(vlSymsp->TOP__top.__PVT__jal_target),32);
-        bufp->chgIData(oldp+21,(vlSymsp->TOP__top.__PVT__my_MBU__DOT__my_pc__DOT__pc),32);
-        bufp->chgIData(oldp+22,(vlSymsp->TOP__top.__PVT__my_MBU__DOT__my_pc__DOT__pc_4),32);
-        bufp->chgIData(oldp+23,(vlSymsp->TOP__top.__PVT__my_MBU__DOT__my_reg__DOT__i),32);
+        bufp->chgIData(oldp+18,(vlSymsp->TOP__top.__PVT__rf_wdata),32);
+        bufp->chgIData(oldp+19,(vlSymsp->TOP__top.__PVT__jal_target),32);
     }
-    bufp->chgBit(oldp+24,(vlSelfRef.clk));
-    bufp->chgBit(oldp+25,(vlSelfRef.rst));
-    bufp->chgBit(oldp+26,(vlSelfRef.ebreak));
-    bufp->chgIData(oldp+27,(vlSelfRef.pc),32);
-    bufp->chgIData(oldp+28,(vlSelfRef.halt_code),32);
-    bufp->chgBit(oldp+29,(vlSymsp->TOP__top.ebreak));
-    bufp->chgIData(oldp+30,(vlSymsp->TOP__top.pc),32);
-    bufp->chgIData(oldp+31,(vlSymsp->TOP__top.halt_code),32);
-    bufp->chgIData(oldp+32,(vlSymsp->TOP__top.pc_),32);
+    if (VL_UNLIKELY((vlSelfRef.__Vm_traceActivity[4U]))) {
+        bufp->chgIData(oldp+20,(vlSymsp->TOP__top.__PVT__my_MBU__DOT__my_pc__DOT__pc),32);
+        bufp->chgIData(oldp+21,(vlSymsp->TOP__top.__PVT__my_MBU__DOT__my_pc__DOT__pc_4),32);
+        bufp->chgIData(oldp+22,(vlSymsp->TOP__top.__PVT__my_MBU__DOT__my_reg__DOT__i),32);
+    }
+    bufp->chgBit(oldp+23,(vlSelfRef.clk));
+    bufp->chgBit(oldp+24,(vlSelfRef.rst));
+    bufp->chgBit(oldp+25,(vlSelfRef.ebreak));
+    bufp->chgIData(oldp+26,(vlSelfRef.pc),32);
+    bufp->chgIData(oldp+27,(vlSelfRef.halt_code),32);
+    bufp->chgBit(oldp+28,(vlSymsp->TOP__top.ebreak));
+    bufp->chgIData(oldp+29,(vlSymsp->TOP__top.pc),32);
+    bufp->chgIData(oldp+30,(vlSymsp->TOP__top.halt_code),32);
+    bufp->chgIData(oldp+31,(vlSymsp->TOP__top.pc_),32);
+    bufp->chgIData(oldp+32,(vlSymsp->TOP__top.__PVT__mem_rdata),32);
     bufp->chgIData(oldp+33,(vlSymsp->TOP__top.my_MBU__DOT__my_reg__DOT__rf[10U]),32);
     Vtop___024root__trace_chg_dtype____0(vlSelf, bufp, 34, vlSymsp->TOP__top.my_MBU__DOT__my_reg__DOT__rf);
 }
@@ -120,4 +124,6 @@ void Vtop___024root__trace_cleanup(void* voidSelf, VerilatedVcd* /*unused*/) {
     vlSymsp->TOP.__Vm_traceActivity[0U] = 0U;
     vlSymsp->TOP.__Vm_traceActivity[1U] = 0U;
     vlSymsp->TOP.__Vm_traceActivity[2U] = 0U;
+    vlSymsp->TOP.__Vm_traceActivity[3U] = 0U;
+    vlSymsp->TOP.__Vm_traceActivity[4U] = 0U;
 }
