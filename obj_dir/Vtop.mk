@@ -40,6 +40,7 @@ VM_USER_CFLAGS = \
   -I../../nemu/tools/capstone/repo/include \
   -I../csrc \
   -I../obj_dir \
+  -O3 \
 
 # User LDLIBS (from -LDFLAGS on Verilator command line)
 VM_USER_LDLIBS = \

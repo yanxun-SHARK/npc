@@ -19,12 +19,19 @@ module EXU#(parameter DATA_WIDTH =`DATA_W)(
     output                  rf_wen,
     output [4:0]            rf_waddr,
     output [DATA_WIDTH-1:0] rf_wdata,
+    output [DATA_WIDTH-1:0] csr_wdata,
+    input  [DATA_WIDTH-1:0] csr_rdata,
+    output [DATA_WIDTH-1:0] csr_waddr,
+    output [DATA_WIDTH-1:0] csr_raddr,
     // branch/jump
     output                  jal,
     input  [DATA_WIDTH-1:0] a0_val,
     output                  ebreak,
     output [DATA_WIDTH-1:0] halt_code,
-    output [DATA_WIDTH-1:0] jal_target
+    output [DATA_WIDTH-1:0] jal_target,
+    output                  ecall,
+    input  [DATA_WIDTH-1:0] mtvec_out,
+    input  [DATA_WIDTH-1:0] mepc_out
 );
 
     ALU #( .DATA_WIDTH (`DATA_W))
@@ -52,7 +59,14 @@ module EXU#(parameter DATA_WIDTH =`DATA_W)(
         .ebreak    (ebreak),
         .halt_code (halt_code),
         .pc        (pc),
-        .jal_target(jal_target)
+        .jal_target(jal_target),
+        .csr_wdata (csr_wdata),
+        .csr_rdata (csr_rdata),
+        .csr_waddr (csr_waddr),
+        .csr_raddr (csr_raddr),
+        .ecall     (ecall),
+        .mtvec_out (mtvec_out),
+        .mepc_out  (mepc_out)
     );
 
 endmodule
@@ -82,7 +96,14 @@ module ALU #(parameter DATA_WIDTH =`DATA_W)(
     input      [DATA_WIDTH-1:0] a0_val,
     output reg                  ebreak,
     output reg [DATA_WIDTH-1:0] halt_code,
-    output reg [DATA_WIDTH-1:0] jal_target
+    output reg [DATA_WIDTH-1:0] jal_target,
+    output reg [DATA_WIDTH-1:0] csr_wdata,
+    input      [DATA_WIDTH-1:0] csr_rdata,
+    output reg [DATA_WIDTH-1:0] csr_waddr,
+    output reg [DATA_WIDTH-1:0] csr_raddr,
+    output reg                  ecall,
+    input      [DATA_WIDTH-1:0] mtvec_out,
+    input      [DATA_WIDTH-1:0] mepc_out
 );
     import "DPI-C" context function void ebreak_notice(input int halt_code);
 
@@ -105,6 +126,11 @@ module ALU #(parameter DATA_WIDTH =`DATA_W)(
     parameter SLLI    = 32'b0000000??????????001?????0010011;
     parameter SRLI    = 32'b0000000??????????101?????0010011;
     parameter SRAI    = 32'b0100000??????????101?????0010011;
+    parameter ECALL   = 32'b00000000000000000000000001110011;
+    parameter CSRRS   = 32'b?????????????????010?????1110011;
+    parameter CSRRW   = 32'b?????????????????001?????1110011;
+    parameter CSRRC   = 32'b?????????????????011?????1110011;
+    parameter MRET    = 32'b00110000001000000000000001110011;
     //TYPE_S
     parameter SB      = 32'b?????????????????000?????0100011;
     parameter SH      = 32'b?????????????????001?????0100011;
@@ -143,6 +169,10 @@ module ALU #(parameter DATA_WIDTH =`DATA_W)(
             ebreak    = 0;
             jal_target = 0;
             halt_code = 0;
+            csr_wdata = 0;
+            csr_waddr = 0;
+            csr_raddr = 0;
+            ecall     = 0;
         end
         else begin
             // default: 
@@ -153,6 +183,10 @@ module ALU #(parameter DATA_WIDTH =`DATA_W)(
             ebreak    = 0;
             jal_target = 0;
             halt_code = 0;
+            csr_wdata = 0;
+            csr_waddr = 0;
+            csr_raddr = 0;
+            ecall     = 0;
             casez(inst)
                 EBREAK  : begin
                     ebreak    = 1;
@@ -310,7 +344,47 @@ module ALU #(parameter DATA_WIDTH =`DATA_W)(
                     rf_waddr = inst[11:7];
                     rf_wdata = src1 + {{20{immi[11]}}, immi};
                 end
-                SW    : begin
+                ECALL : begin
+                    ecall     = 1;
+                    csr_wdata = pc;
+                    jal       = 1;
+                    jal_target = mtvec_out & ~1;
+                end
+                CSRRS : begin
+                    csr_raddr = immi;
+                    csr_waddr = immi;
+                    rf_wen    = 1;
+                    rf_waddr  = inst[11:7];
+                    rf_wdata  = csr_rdata;
+                    if (inst[19:15] != 0)
+                        csr_wdata = csr_rdata | src1;
+                    else
+                        csr_wdata = csr_rdata;
+                end
+                CSRRW : begin
+                    csr_raddr = immi;
+                    csr_waddr = immi;
+                    rf_wen    = 1;
+                    rf_waddr  = inst[11:7];
+                    rf_wdata  = csr_rdata;
+                    csr_wdata = src1;
+                end
+                CSRRC : begin
+                    csr_raddr = immi;
+                    csr_waddr = immi;
+                    rf_wen    = 1;
+                    rf_waddr  = inst[11:7];
+                    rf_wdata  = csr_rdata;
+                    if (inst[19:15] != 0)
+                        csr_wdata = csr_rdata & ~src1;
+                    else
+                        csr_wdata = csr_rdata;
+                end
+                MRET : begin
+                    jal        = 1;
+                    jal_target = mepc_out & ~1;
+                end
+                SW : begin
                     mem_addr  = src1 + {{20{imms[11]}}, imms};
                     mem_wdata = src2;
                     mem_wmask = 4'b1111;

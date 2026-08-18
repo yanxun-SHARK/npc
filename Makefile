@@ -23,6 +23,21 @@ all: sim run
 	
 sim: $(VSRC) $(CSRC) 
 	$(call git_commit, "sim RTL") # DO NOT REMOVE THIS LINE!!!
+	verilator --cc --exe --build -j 8 -Wall -Wno-fatal \
+	-LDFLAGS "-lreadline -ldl" \
+	-CFLAGS "-I../../nemu/tools/capstone/repo/include" \
+	-CFLAGS "-I../csrc" \
+	-CFLAGS "-I../obj_dir" \
+	-CFLAGS "-O3" \
+	-MAKEFLAGS "OPT_FAST=-O3" \
+	-MAKEFLAGS "OPT_GLOBAL=-O3" \
+	$(VSRC) $(CSRC)
+
+run: sim
+	obj_dir/$(TARGET) $(IMG)
+	
+wave:$(VSRC) $(CSRC) 
+	$(call git_commit, "sim RTL") # DO NOT REMOVE THIS LINE!!!
 	verilator --cc --exe --build -j 8 -Wall --trace-vcd -Wno-fatal \
 	-LDFLAGS "-lreadline -ldl" \
 	-CFLAGS "-I../../nemu/tools/capstone/repo/include" \
@@ -30,10 +45,6 @@ sim: $(VSRC) $(CSRC)
 	-CFLAGS "-I../obj_dir" \
 	$(VSRC) $(CSRC)
 
-run: sim
-	obj_dir/$(TARGET) $(IMG)
-	
-wave:
 	gtkwave wave.vcd
 
 clean:

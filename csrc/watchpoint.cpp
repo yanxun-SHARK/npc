@@ -17,6 +17,8 @@ typedef struct watchpoint {
 static WP wp_pool[NR_WP] = {};
 static WP *head = NULL, *free_ = NULL;
 
+int wp_active_count = 0;
+
 void init_wp_pool() {
   int i;
   for (i = 0; i < NR_WP; i ++) {
@@ -53,6 +55,7 @@ WP* new_wp(char *expr) {
   //添加到链表头部
   wp->next = head;
   head = wp;
+  wp_active_count++;
   
   return wp;
 }
@@ -78,6 +81,7 @@ void free_wp(WP *wp) {
   //将wp插入到free头部
   wp->next = free_;
   free_ = wp;
+  wp_active_count--;
 }
 //打印所有间断点
 void print_wp_list() {
@@ -95,6 +99,7 @@ void print_wp_list() {
   }
 }
 int check_watchpoints() {
+  if (head == NULL) return -1;  // 快速短路：无监视点
   WP *curr = head;
   while (curr != NULL) {
     bool success;
@@ -128,6 +133,7 @@ void delete_wp(int NO) {
       //归还到free
       curr->next = free_;
       free_ = curr;
+      wp_active_count--;
       return;
     }
     prev = curr;

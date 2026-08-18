@@ -38,17 +38,29 @@ bool Vtop___024root___eval_phase__ico(Vtop___024root* vlSelf) {
                                           & vlSelfRef.__VicoTriggered[1U]) 
                                          | (IData)((IData)(vlSelfRef.__VicoFirstIteration)));
         vlSelfRef.__VicoTriggered[0U] = (QData)((IData)(
-                                                        ((((IData)(vlSelfRef.rst) 
-                                                           != (IData)(vlSelfRef.__Vtrigprevexpr___TOP__rst__0)) 
-                                                          << 1U) 
-                                                         | ((IData)(vlSelfRef.clk) 
-                                                            != (IData)(vlSelfRef.__Vtrigprevexpr___TOP__clk__0)))));
+                                                        (((((IData)(vlSelfRef.rst) 
+                                                            != (IData)(vlSelfRef.__Vtrigprevexpr___TOP__rst__0)) 
+                                                           << 3U) 
+                                                          | (((IData)(vlSelfRef.clk) 
+                                                              != (IData)(vlSelfRef.__Vtrigprevexpr___TOP__clk__0)) 
+                                                             << 2U)) 
+                                                         | (((vlSymsp->TOP__top.__PVT__csr_rdata 
+                                                              != vlSelfRef.__Vtrigprevexpr___TOP__top____PVT__csr_rdata__0) 
+                                                             << 1U) 
+                                                            | (vlSymsp->TOP__top.__PVT__mem_rdata 
+                                                               != vlSelfRef.__Vtrigprevexpr___TOP__top____PVT__mem_rdata__0)))));
+        vlSelfRef.__Vtrigprevexpr___TOP__top____PVT__mem_rdata__0 
+            = vlSymsp->TOP__top.__PVT__mem_rdata;
+        vlSelfRef.__Vtrigprevexpr___TOP__top____PVT__csr_rdata__0 
+            = vlSymsp->TOP__top.__PVT__csr_rdata;
         vlSelfRef.__Vtrigprevexpr___TOP__clk__0 = vlSelfRef.clk;
         vlSelfRef.__Vtrigprevexpr___TOP__rst__0 = vlSelfRef.rst;
         if (VL_UNLIKELY(((1U & (~ (IData)(vlSelfRef.__VicoDidInit)))))) {
             vlSelfRef.__VicoDidInit = 1U;
             vlSelfRef.__VicoTriggered[0U] = (1ULL | vlSelfRef.__VicoTriggered[0U]);
             vlSelfRef.__VicoTriggered[0U] = (2ULL | vlSelfRef.__VicoTriggered[0U]);
+            vlSelfRef.__VicoTriggered[0U] = (4ULL | vlSelfRef.__VicoTriggered[0U]);
+            vlSelfRef.__VicoTriggered[0U] = (8ULL | vlSelfRef.__VicoTriggered[0U]);
         }
     }
 #ifdef VL_DEBUG
@@ -62,7 +74,6 @@ bool Vtop___024root___eval_phase__ico(Vtop___024root* vlSelf) {
             // Inlined CFunc: _eval_ico
             if ((1ULL & vlSelfRef.__VicoTriggered[1U])) {
                 Vtop_top___ico_sequent__TOP__top__0((&vlSymsp->TOP__top));
-                vlSelfRef.__Vm_traceActivity[1U] = 1U;
                 {
                     // Inlined CFunc: _ico_sequent__TOP__0
                     vlSelfRef.pc = vlSymsp->TOP__top.pc;
@@ -70,9 +81,8 @@ bool Vtop___024root___eval_phase__ico(Vtop___024root* vlSelf) {
                 }
             }
             if (((1ULL & vlSelfRef.__VicoTriggered[1U]) 
-                 | (2ULL & vlSelfRef.__VicoTriggered[0U]))) {
+                 | (0x000000000000000bULL & vlSelfRef.__VicoTriggered[0U]))) {
                 Vtop_top___ico_comb__TOP__top__0((&vlSymsp->TOP__top));
-                vlSelfRef.__Vm_traceActivity[2U] = 1U;
                 {
                     // Inlined CFunc: _ico_comb__TOP__0
                     vlSelfRef.ebreak = vlSymsp->TOP__top.ebreak;
@@ -114,7 +124,6 @@ void Vtop___024root___trigger_orInto__act_vec_vec(VlUnpacked<QData/*63:0*/, 1> &
 #ifdef VL_DEBUG
 VL_ATTR_COLD void Vtop___024root___dump_triggers__act(const VlUnpacked<QData/*63:0*/, 1> &triggers, const std::string &tag);
 #endif  // VL_DEBUG
-void Vtop_top___act_sequent__TOP__top__0(Vtop_top* vlSelf);
 
 bool Vtop___024root___eval_phase__act(Vtop___024root* vlSelf) {
     VL_DEBUG_IF(VL_DBG_MSGF("+    Vtop___024root___eval_phase__act\n"); );
@@ -129,13 +138,15 @@ bool Vtop___024root___eval_phase__act(Vtop___024root* vlSelf) {
                                                         ((((IData)(vlSelfRef.clk) 
                                                            & (~ (IData)(vlSelfRef.__Vtrigprevexpr___TOP__clk__1))) 
                                                           << 2U) 
-                                                         | ((((IData)(vlSelfRef.clk) 
-                                                              != (IData)(vlSelfRef.__Vtrigprevexpr___TOP__clk__1)) 
+                                                         | (((vlSymsp->TOP__top.__PVT__csr_rdata 
+                                                              != vlSelfRef.__Vtrigprevexpr___TOP__top____PVT__csr_rdata__1) 
                                                              << 1U) 
-                                                            | (vlSymsp->TOP__top.__PVT__mem_addr 
-                                                               != vlSelfRef.__Vtrigprevexpr___TOP__top____PVT__mem_addr__0)))));
-        vlSelfRef.__Vtrigprevexpr___TOP__top____PVT__mem_addr__0 
-            = vlSymsp->TOP__top.__PVT__mem_addr;
+                                                            | (vlSymsp->TOP__top.__PVT__mem_rdata 
+                                                               != vlSelfRef.__Vtrigprevexpr___TOP__top____PVT__mem_rdata__1)))));
+        vlSelfRef.__Vtrigprevexpr___TOP__top____PVT__mem_rdata__1 
+            = vlSymsp->TOP__top.__PVT__mem_rdata;
+        vlSelfRef.__Vtrigprevexpr___TOP__top____PVT__csr_rdata__1 
+            = vlSymsp->TOP__top.__PVT__csr_rdata;
         vlSelfRef.__Vtrigprevexpr___TOP__clk__1 = vlSelfRef.clk;
         if (VL_UNLIKELY(((1U & (~ (IData)(vlSelfRef.__VactDidInit)))))) {
             vlSelfRef.__VactDidInit = 1U;
@@ -154,8 +165,7 @@ bool Vtop___024root___eval_phase__act(Vtop___024root* vlSelf) {
         {
             // Inlined CFunc: _eval_act
             if ((3ULL & vlSelfRef.__VactTriggered[0U])) {
-                Vtop_top___act_sequent__TOP__top__0((&vlSymsp->TOP__top));
-                vlSelfRef.__Vm_traceActivity[3U] = 1U;
+                Vtop_top___ico_comb__TOP__top__0((&vlSymsp->TOP__top));
                 {
                     // Inlined CFunc: _ico_comb__TOP__0
                     vlSelfRef.ebreak = vlSymsp->TOP__top.ebreak;
@@ -194,11 +204,16 @@ bool Vtop___024root___eval_phase__nba(Vtop___024root* vlSelf) {
             // Inlined CFunc: _eval_nba
             if ((4ULL & vlSelfRef.__VnbaTriggered[0U])) {
                 Vtop_top___nba_sequent__TOP__top__0((&vlSymsp->TOP__top));
-                vlSelfRef.__Vm_traceActivity[4U] = 1U;
                 {
-                    // Inlined CFunc: _nba_sequent__TOP__0
+                    // Inlined CFunc: _ico_sequent__TOP__0
                     vlSelfRef.pc = vlSymsp->TOP__top.pc;
                     vlSelfRef.top_inst = vlSymsp->TOP__top.__PVT__inst;
+                }
+            }
+            if ((7ULL & vlSelfRef.__VnbaTriggered[0U])) {
+                Vtop_top___ico_comb__TOP__top__0((&vlSymsp->TOP__top));
+                {
+                    // Inlined CFunc: _ico_comb__TOP__0
                     vlSelfRef.ebreak = vlSymsp->TOP__top.ebreak;
                     vlSelfRef.halt_code = vlSymsp->TOP__top.halt_code;
                 }

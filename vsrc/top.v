@@ -8,11 +8,11 @@ module top#(parameter DATA_WIDTH =`DATA_W)(
     output [DATA_WIDTH-1:0] halt_code/*verilator public*/,
     output [DATA_WIDTH-1:0] top_inst
 );
-initial begin
-  $dumpfile("wave.vcd");
-  $dumpvars(0, top);
+// initial begin
+//   $dumpfile("wave.vcd");
+//   $dumpvars(0, top);
 
-end
+// end
 //  wire                  ebreak/*verilator public*/;
   wire                  mem_we;
   wire                  rf_wen;
@@ -37,6 +37,13 @@ end
   wire [DATA_WIDTH-1:0] rf_wdata;
   wire [DATA_WIDTH-1:0] a0_val;
   wire [DATA_WIDTH-1:0] jal_target;
+  wire [DATA_WIDTH-1:0] csr_wdata;
+  wire [DATA_WIDTH-1:0] csr_rdata;
+  wire [DATA_WIDTH-1:0] csr_waddr;
+  wire [DATA_WIDTH-1:0] csr_raddr;
+  wire                  ecall;
+  wire [DATA_WIDTH-1:0] mtvec_out;
+  wire [DATA_WIDTH-1:0] mepc_out;
 //  wire [DATA_WIDTH-1:0] halt_code/*verilator public*/;
 
   assign pc = pc_;
@@ -91,9 +98,16 @@ end
     .a0_val    (a0_val),
     .ebreak    (ebreak),
     .halt_code (halt_code),
-    .pc        (pc),
-    .jal_target(jal_target)
-  );
+     .pc        (pc),
+     .jal_target(jal_target),
+     .csr_wdata (csr_wdata),
+     .csr_rdata (csr_rdata),
+     .csr_waddr (csr_waddr),
+      .csr_raddr (csr_raddr),
+      .ecall     (ecall),
+      .mtvec_out (mtvec_out),
+      .mepc_out  (mepc_out)
+   );
 
 
 
@@ -108,8 +122,21 @@ end
   );
 
 
-   WBU# (.DATA_WIDTH (`DATA_W))
-   my_MBU(
+   CSR my_CSR(
+     .rst       (rst),
+     .clk       (clk),
+     .CSR_waddr (csr_waddr[11:0]),
+     .CSR_raddr (csr_raddr[11:0]),
+     .CSR_wdata (csr_wdata),
+     .CSR_rdata (csr_rdata),
+     .ecall     (ecall),
+     .pc        (pc),
+     .mtvec_out (mtvec_out),
+     .mepc_out  (mepc_out)
+   );
+
+    WBU# (.DATA_WIDTH (`DATA_W))
+    my_MBU(
      .clk    (clk),
      .rst    (rst),
      .wen    (rf_wen),

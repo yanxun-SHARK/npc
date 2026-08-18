@@ -1,4 +1,4 @@
-#define VCD_TRACE true
+//#define VCD_TRACE true
 //#define PRINTF_CODE true
 #include <stdio.h>
 #include <stdbool.h>
@@ -43,6 +43,7 @@ void sdb_mainloop();
 void sdb_set_batch_mode();
 void NPC_exec(int n );
 int  check_watchpoints();
+extern int wp_active_count;
 void init_itrace();
 size_t img_size ;
 #define concat_temp(x, y) x ## y
@@ -205,11 +206,13 @@ void NPC_exec(int n ) {
         EvalOnce();
         nn++;
         IFDEF(CONFIG_DIFFTEST, difftest_step();)
+        if (wp_active_count > 0) {
         int wp_no = check_watchpoints();
         if (wp_no >= 0) {
         printf("Watchpoint %d triggered!\n", wp_no);
         NPC_state = NPC_STOP;
         break;
+        }
         }
         
         }

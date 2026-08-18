@@ -20,6 +20,7 @@ class alignas(VL_CACHE_LINE_BYTES) Vtop___024root final {
     VL_IN8(clk,0,0);
     VL_IN8(rst,0,0);
     VL_OUT8(ebreak,0,0);
+    CData/*0:0*/ __VstlDidInit;
     CData/*0:0*/ __VstlFirstIteration;
     CData/*0:0*/ __VstlPhaseResult;
     CData/*0:0*/ __Vtrigprevexpr___TOP__clk__0;
@@ -34,13 +35,15 @@ class alignas(VL_CACHE_LINE_BYTES) Vtop___024root final {
     VL_OUT(pc,31,0);
     VL_OUT(halt_code,31,0);
     VL_OUT(top_inst,31,0);
-    IData/*31:0*/ __Vtrigprevexpr___TOP__top____PVT__mem_addr__0;
+    IData/*31:0*/ __Vtrigprevexpr___TOP__top____PVT__mem_rdata__0;
+    IData/*31:0*/ __Vtrigprevexpr___TOP__top____PVT__csr_rdata__0;
+    IData/*31:0*/ __Vtrigprevexpr___TOP__top____PVT__mem_rdata__1;
+    IData/*31:0*/ __Vtrigprevexpr___TOP__top____PVT__csr_rdata__1;
     IData/*31:0*/ __VactIterCount;
-    VlUnpacked<QData/*63:0*/, 1> __VstlTriggered;
+    VlUnpacked<QData/*63:0*/, 2> __VstlTriggered;
     VlUnpacked<QData/*63:0*/, 2> __VicoTriggered;
     VlUnpacked<QData/*63:0*/, 1> __VactTriggered;
     VlUnpacked<QData/*63:0*/, 1> __VnbaTriggered;
-    VlUnpacked<CData/*0:0*/, 5> __Vm_traceActivity;
 
     // INTERNAL VARIABLES
     Vtop__Syms* vlSymsp;

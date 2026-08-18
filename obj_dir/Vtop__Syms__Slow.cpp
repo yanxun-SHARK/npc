@@ -11,7 +11,7 @@ Vtop__Syms::Vtop__Syms(VerilatedContext* contextp, const char* namep, Vtop* mode
     , TOP{this, namep}
 {
     // Check resources
-    Verilated::stackCheck(642);
+    Verilated::stackCheck(790);
     // Setup sub module instances
     TOP__top.ctor(this, "top");
     // Configure time unit / time precision
@@ -43,7 +43,6 @@ Vtop__Syms::Vtop__Syms(VerilatedContext* contextp, const char* namep, Vtop* mode
 }
 
 Vtop__Syms::~Vtop__Syms() {
-    if (__Vm_dumping) _traceDumpClose();
     // Tear down scopes
     VL_DO_CLEAR(delete __Vscopep_TOP, __Vscopep_TOP = nullptr);
     VL_DO_CLEAR(delete __Vscopep_top, __Vscopep_top = nullptr);
@@ -53,26 +52,4 @@ Vtop__Syms::~Vtop__Syms() {
     VL_DO_CLEAR(delete __Vscopep_top__my_MBU__my_reg, __Vscopep_top__my_MBU__my_reg = nullptr);
     // Tear down sub module instances
     TOP__top.dtor();
-}
-
-void Vtop__Syms::_traceDump() {
-    const VerilatedLockGuard lock{__Vm_dumperMutex};
-    __Vm_dumperp->dump(VL_TIME_Q());
-}
-
-void Vtop__Syms::_traceDumpOpen() {
-    const VerilatedLockGuard lock{__Vm_dumperMutex};
-    if (VL_UNLIKELY(!__Vm_dumperp)) {
-        __Vm_dumperp = new VerilatedVcdC();
-        __Vm_modelp->trace(__Vm_dumperp, 0, 0);
-        const std::string dumpfile = _vm_contextp__->dumpfileCheck();
-        __Vm_dumperp->open(dumpfile.c_str());
-        __Vm_dumping = true;
-    }
-}
-
-void Vtop__Syms::_traceDumpClose() {
-    const VerilatedLockGuard lock{__Vm_dumperMutex};
-    __Vm_dumping = false;
-    VL_DO_CLEAR(delete __Vm_dumperp, __Vm_dumperp = nullptr);
 }

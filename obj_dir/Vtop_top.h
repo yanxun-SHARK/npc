@@ -22,6 +22,7 @@ class alignas(VL_CACHE_LINE_BYTES) Vtop_top final {
     CData/*0:0*/ __PVT__jal;
     CData/*4:0*/ __PVT__rf_waddr;
     CData/*3:0*/ __PVT__mem_wmask;
+    CData/*0:0*/ __PVT__ecall;
     SData/*11:0*/ __PVT__imms;
     SData/*11:0*/ __PVT__immb;
     IData/*31:0*/ pc;
@@ -37,9 +38,19 @@ class alignas(VL_CACHE_LINE_BYTES) Vtop_top final {
     IData/*31:0*/ __PVT__mem_rdata;
     IData/*31:0*/ __PVT__rf_wdata;
     IData/*31:0*/ __PVT__jal_target;
+    IData/*31:0*/ __PVT__csr_wdata;
+    IData/*31:0*/ __PVT__csr_rdata;
+    IData/*31:0*/ __PVT__csr_waddr;
+    IData/*31:0*/ __PVT__csr_raddr;
     IData/*31:0*/ __PVT__my_MBU__DOT__my_pc__DOT__pc;
     IData/*31:0*/ __PVT__my_MBU__DOT__my_pc__DOT__pc_4;
-    IData/*31:0*/ __PVT__my_MBU__DOT__my_reg__DOT__i;
+    IData/*31:0*/ __PVT__my_CSR__DOT__MCYCLE_reg;
+    IData/*31:0*/ __PVT__my_CSR__DOT__MCYCLEH_reg;
+    IData/*31:0*/ __PVT__my_CSR__DOT__MSTATUS_reg;
+    IData/*31:0*/ __PVT__my_CSR__DOT__MEPC_reg;
+    IData/*31:0*/ __PVT__my_CSR__DOT__MCAUSE_reg;
+    IData/*31:0*/ __PVT__my_CSR__DOT__MTVEC_reg;
+    IData/*31:0*/ __Vfunc_my_LSU__DOT__pmem_read__1__Vfuncout;
     IData/*31:0*/ __Vfunc_my_IFU__DOT__pmem_read__3__Vfuncout;
     VlUnpacked<IData/*31:0*/, 32> my_MBU__DOT__my_reg__DOT__rf;
 

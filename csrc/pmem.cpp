@@ -5,7 +5,7 @@
 #include "autoconf.h"
 #include "common.h"
 
-#define PMEM_SIZE 0x100000
+#define PMEM_SIZE 0x8000000
 void log_mtrace(paddr_t addr, int len, word_t data);
 uint8_t pmem[PMEM_SIZE];
 
@@ -25,20 +25,17 @@ extern "C" size_t pmem_load(const char* filename) {
 }
 
 extern "C" int pmem_read(int raddr) {
-    
-    if (raddr == 0x10000004) {
-        time_t timep;
-        time(&timep);
-        return timep;
-    }else {
-        uint32_t a = (uint32_t)(raddr & ~0x3u) & (PMEM_SIZE - 1);
-        return (int)(pmem[a] | (pmem[a+1] << 8) | (pmem[a+2] << 16) | (pmem[a+3] << 24));
+    if (unlikely(raddr == 0x10000004)) {
+        return (int)time(NULL);
     }
+    uint32_t a = (uint32_t)(raddr & ~0x3u) & (PMEM_SIZE - 1);
+    return (int)(pmem[a] | (pmem[a+1] << 8) | (pmem[a+2] << 16) | (pmem[a+3] << 24));
 }
 
 extern "C" void pmem_write(int waddr, int wdata, char wmask) {
-    if (waddr == 0x10000000) { 
+    if (unlikely(waddr == 0x10000000)) { 
         putchar(wdata & 0xFF);
+        fflush(stdout);
         return;
     }
     IFDEF(CONFIG_MTRACE,log_mtrace(waddr, 4, wdata));
